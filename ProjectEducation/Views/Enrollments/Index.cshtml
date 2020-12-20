@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ProjectEducation.Models.Enrollment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Оценки</h1>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+{
+<p>
+    <a asp-action="Create">Создать</a>
+</p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                Оценка
+            </td>
+            <td>
+                Предмет
+            </td>
+            <td>
+                Студент
+            </td>
+            <td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher")) {
+                    <a asp-action="Edit" asp-route-id="@item.EnrollmentID">Редактировать</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.EnrollmentID">Информация</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.EnrollmentID">Удалить</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ProjectEducation.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Предметы</h2>
+
+<p>
+    <a asp-action="Create">Добавить предмет</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Предмет id
+            </th>
+            <th>
+                Предмет
+            </th>
+            <th>
+                Кредиты
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.CourseID">Информация</a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                <a asp-action="Edit" asp-route-id="@item.CourseID">Редактировать</a>
+                <a asp-action="Delete" asp-route-id="@item.CourseID">Удалить</a>
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

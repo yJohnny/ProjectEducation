@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProjectEducation.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Студенты</h2>
+
+@if (User.IsInRole("Admin"))
+{
+<p>
+    <a asp-action="Create">Добавить студента</a>
+</p>
+}
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Поиск по ФИО: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Назад к списку</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Фамилия</a>
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Дата регистрации</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstMidName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID">Информация</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
